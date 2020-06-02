@@ -12,9 +12,10 @@ public class ShortestPathHeuristic {
 	ArrayList<Sensor> listSensors;
 	double Rmax = 7;
 	Point maxP;
-	double maxEP = 0;
+	public static double maxEP = 0;
 	int tmax = 0, Ep1 = 0, Ep2 = 0 ;
 	double y1 = hOfField, y2 = hOfField;
+	public static String filename;
 	
 	public ShortestPathHeuristic() {
 		this.listSensors = new ArrayList<Sensor>();
@@ -24,7 +25,7 @@ public class ShortestPathHeuristic {
 		speed = 5.0;
 		limitTime = 100.0;
 
-		String filename = "C:\\Users\\20161\\Desktop\\BTL_TTTH\\src\\M_ExposurePath\\200.txt";
+//		String filename = "C:\\Users\\20161\\Desktop\\BTL_TTTH\\src\\M_ExposurePath\\200.txt";
 		List<String> lines = new ArrayList<String>();
 
 		BufferedReader input = null;
@@ -359,7 +360,7 @@ public class ShortestPathHeuristic {
 					Ep1_2 += sumExposure(wOfField, i);
 					i = i - deltaS;
 				}	
-				
+
 				Ep1 = Ep1_1 + Ep1_2 - tmax;	
 				maxEP = Ep1*t1 + tmax*timeM;
 			}
@@ -432,12 +433,38 @@ public class ShortestPathHeuristic {
 		}
 	}
 		
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
         //TODO
-		ShortestPathHeuristic app = new ShortestPathHeuristic();
-		app.init();
-		app.ShortestPath();
-		app.FindExposureMax();
-		app.Cal();
+		PrintWriter writer2 = null;
+		String filekq = "/home/giang/Documents/MEP_PSO/ketquaHeuristic.txt";
+		writer2 = new PrintWriter(new File(filekq));
+		writer2.write("filename                  result            time " + "\n");
+		String[] datas = { "10", "20", "50", "100", "200" };
+		
+		for(int i = 0; i < datas.length; i++) {
+			for(int j = 1; j <= 10; j++) {
+				filename = "/home/giang/Documents/MEP_PSO/data/data_" + datas[i] + "_" + String.valueOf(j) + ".txt";
+				System.out.println(filename);
+				
+				ShortestPathHeuristic app = new ShortestPathHeuristic();
+				app.init();
+				app.ShortestPath();
+				app.FindExposureMax();  
+				app.Cal();
+//				app.PrintFile();
+				System.out.println("\n -----------------------------");
+				writer2.write("data_" + datas[i] + "_" + String.valueOf(j) + ".txt            " + maxEP + "          "  + "\n");
+				
+//				writer2.flush();
+			}
+		}
+		
+		writer2.flush();
+		writer2.close();
+//		ShortestPathHeuristic app = new ShortestPathHeuristic();
+//		app.init();
+//		app.ShortestPath();
+//		app.FindExposureMax();
+//		app.Cal();
     }	
 }

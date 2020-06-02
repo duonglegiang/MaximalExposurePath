@@ -12,8 +12,9 @@ public class BestPointHeuristic {
 	ArrayList<Sensor> listSensors;
 	double Rmax = 7;
 	Point maxP;
-	double maxEP = 0;
+	static double maxEP = 0;
 	int tmax = 0, Ep1 = 0, Ep2 = 0 ;
+	static String filename;
 	
 	public BestPointHeuristic() {
 		this.listSensors = new ArrayList<Sensor>();
@@ -26,7 +27,7 @@ public class BestPointHeuristic {
 		limitTime = 100;
 		limitS = speed * limitTime;
 		
-		String filename = "C:\\Users\\20161\\Desktop\\BTL_TTTH\\src\\M_ExposurePath\\10.txt";
+//		String filename = "C:\\Users\\20161\\Desktop\\BTL_TTTH\\src\\M_ExposurePath\\10.txt";
 		List<String> lines = new ArrayList<String>();
 
 		BufferedReader input = null;
@@ -63,7 +64,7 @@ public class BestPointHeuristic {
 			Sensor sensor1 = new Sensor(x11, y11, r11);
 			listSensors.add(sensor1);
 			
-			System.out.println("Sensor "+ (i+1) + ": " + sensor1.x + " " + sensor1.y + " " + sensor1.r );
+//			System.out.println("Sensor "+ (i+1) + ": " + sensor1.x + " " + sensor1.y + " " + sensor1.r );
 		}
 		
 		double y1, y2;
@@ -462,7 +463,7 @@ public class BestPointHeuristic {
 		return maxEP;
 	}
 	
-	double bestMEP = 0;
+	static double bestMEP = 0;
 	double tempk = 0;
 	
 	public void BestExposure() {
@@ -624,9 +625,34 @@ public class BestPointHeuristic {
 		}
 	}
 	
-	public static void main(String[] args) {
-		BestPointHeuristic app = new BestPointHeuristic();
-		app.init();
-		app.BestExposure();
+	public static void main(String[] args) throws IOException {
+//		BestPointHeuristic app = new BestPointHeuristic();
+//		app.init();
+//		app.BestExposure();
+		
+		PrintWriter writer2 = null;
+		String filekq = "/home/giang/Documents/MEP_PSO/ketquaBestPointHeuristic.txt";
+		writer2 = new PrintWriter(new File(filekq));
+		writer2.write("filename                  result            time " + "\n");
+		String[] datas = { "10", "20", "50", "100", "200" };
+		
+		for(int i = 0; i < datas.length; i++) {
+			for(int j = 1; j <= 10; j++) {
+				filename = "/home/giang/Documents/MEP_PSO/data/data_" + datas[i] + "_" + String.valueOf(j) + ".txt";
+				System.out.println(filename);
+				bestMEP = 0;
+				BestPointHeuristic app = new BestPointHeuristic();
+				app.init();
+				app.BestExposure();
+//				app.PrintFile();
+				System.out.println("\n -----------------------------");
+				writer2.write("data_" + datas[i] + "_" + String.valueOf(j) + ".txt            " + bestMEP + "          "  + "\n");
+				
+//				writer2.flush();
+			}
+		}
+		
+		writer2.flush();
+		writer2.close();
     }
 }

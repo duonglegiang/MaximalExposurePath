@@ -5,18 +5,19 @@ import java.lang.*;
 import java.io.*;
 
 public class Init {
-	int N = 20;
+	static int N = 10;
 	double wOfField = 100;
 	double hOfField = 100;
-	double Rmax = 14;
+	static double Rmax = 17;
 	double deltaS = 0.5;
 	double x1 = 100, x2 = 100;
+	static String filename;
 	
 	public void InitRandom() throws IOException {
 		final Random R = new Random();
 		PrintWriter writer1 = null;
 		// double c = 1.2;
-		writer1 = new PrintWriter(new File("C:\\Users\\20161\\Desktop\\BTL_TTTH\\src\\M_ExposurePath\\20.txt"));
+		writer1 = new PrintWriter(new File(filename));
 		writer1.write(N + "\n");
 		for (int i = 0; i < N; i++) {
 			double x11 = 200, y11 = 100, r11 = Rmax;
@@ -58,6 +59,8 @@ public class Init {
 		}
 
 		double x8 = 0;
+		x1 = 20;
+		x2 = 69.0;
 		writer1.write(x1 + " " + x8 + "\n");
 		writer1.write(x2 + " " + hOfField);
 
@@ -66,12 +69,35 @@ public class Init {
 
 	}
 
-	public static void main(final String[] args) {
-		final Init app = new Init();
-		try {
-			app.InitRandom();
-		} catch (final Exception e) {
-			System.out.println("Exception duoc xu ly");
+	public static void main(final String[] args) throws IOException {
+		String[] datas = {"10", "20", "50", "100", "200"};
+		for(int i = 0; i < datas.length; i++) {
+			for(int j = 1; j <= 10; j++) {
+				Init app = new Init();
+				N = Integer.parseInt(datas[i]);
+				if(N == 10) {
+					Rmax = 20;
+				}
+				else if(N == 20) {
+					Rmax = 15;
+				}
+				else {
+					Rmax = 7;
+				}
+				
+				filename = "/home/giang/Documents/MEP_PSO/data/data_" + datas[i] + "_" + String.valueOf(j) + ".txt";
+				
+				app.InitRandom();
+			}
 		}
+		System.out.println("da xong");
+//		Init app = new Init();
+//		try {
+//			app.InitRandom();
+//		} catch (final Exception e) {
+//			System.out.println("Exception duoc xu ly");
+//		}
+		
+		
 	}
 }
