@@ -445,7 +445,7 @@ public class ShortestPathHeuristic {
 			for(int j = 1; j <= 10; j++) {
 				filename = "/home/giang/Documents/MEP_PSO/data/data_" + datas[i] + "_" + String.valueOf(j) + ".txt";
 				System.out.println(filename);
-				
+				long start = System.currentTimeMillis();
 				ShortestPathHeuristic app = new ShortestPathHeuristic();
 				app.init();
 				app.ShortestPath();
@@ -453,7 +453,9 @@ public class ShortestPathHeuristic {
 				app.Cal();
 //				app.PrintFile();
 				System.out.println("\n -----------------------------");
-				writer2.write("data_" + datas[i] + "_" + String.valueOf(j) + ".txt            " + maxEP + "          "  + "\n");
+				long timeC = System.currentTimeMillis() - start;
+				String kq = String.format("%.4f", maxEP);
+				writer2.write("data_" + datas[i] + "_" + String.valueOf(j) + ".txt            " + kq + "          "  + timeC + "\n");
 				
 //				writer2.flush();
 			}

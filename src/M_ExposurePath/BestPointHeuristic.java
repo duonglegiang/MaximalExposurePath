@@ -639,6 +639,7 @@ public class BestPointHeuristic {
 		for(int i = 0; i < datas.length; i++) {
 			for(int j = 1; j <= 10; j++) {
 				filename = "/home/giang/Documents/MEP_PSO/data/data_" + datas[i] + "_" + String.valueOf(j) + ".txt";
+				long start = System.currentTimeMillis();
 				System.out.println(filename);
 				bestMEP = 0;
 				BestPointHeuristic app = new BestPointHeuristic();
@@ -646,7 +647,10 @@ public class BestPointHeuristic {
 				app.BestExposure();
 //				app.PrintFile();
 				System.out.println("\n -----------------------------");
-				writer2.write("data_" + datas[i] + "_" + String.valueOf(j) + ".txt            " + bestMEP + "          "  + "\n");
+				long timeC = System.currentTimeMillis() - start;
+				String kq = String.format("%.4f", bestMEP);
+				System.out.println(kq);
+				writer2.write("data_" + datas[i] + "_" + String.valueOf(j) + ".txt            " + kq + "          " + timeC + "\n");
 				
 //				writer2.flush();
 			}
